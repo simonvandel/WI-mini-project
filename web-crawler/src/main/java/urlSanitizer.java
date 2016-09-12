@@ -9,7 +9,7 @@ public class urlSanitizer {
     }
 
     public boolean isURIInteresting (URI input) {
-        // 1) Check protocol.
+        // 1) Check protocol
         String scheme = input.getScheme();
         boolean isInteresting = false;
         switch (scheme) {
@@ -21,7 +21,12 @@ public class urlSanitizer {
                 break;
         }
         // 2) Check extension
-        // TODO check extention to remove e.g. .jpg
+        if(input.toString().contains(".")) {
+            String extension = input.toString().substring(input.toString().lastIndexOf("."));
+            if (extension == "jpg") {
+                isInteresting = false;
+            }
+        }
 
         return isInteresting;
     }
