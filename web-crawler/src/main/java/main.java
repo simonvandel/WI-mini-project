@@ -11,7 +11,7 @@ public class main {
     private static void crawl() {
         // Initialize queue with seed URLs
 
-        // Fetch next URI from queue
+        // Fetch next URI and delete from queue
         URI nextURI = null;
         try {
             nextURI = crawlerQueue.fetchNextURI();
@@ -20,7 +20,7 @@ public class main {
         }
 
         // Download this page
-            // Extract text/
+            // Extract text
             // Extract outgoing links
                 // For each extracted link
                     // Normalize URI
@@ -30,13 +30,11 @@ public class main {
                     // Add to frontier
             // Run near-duplicate check
                 // If not duplicate, pass to indexer (LATER)
-
-
-
-
-        // Delete current URI from queue
-        if (nextURI != null) {
-            crawlerQueue.removeURI(nextURI);
+        indexer index = new indexer();
+        try {
+            index.savePage(new URI("http://www.google.dk"), "testtestestestestestsetse");
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
         }
     }
 }

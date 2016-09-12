@@ -23,15 +23,8 @@ public class session1 {
     }
 
     public static long hash(String input) {
-        try {
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            md.update(input.getBytes());
-            byte[] byteData = md.digest();
-            return ByteBuffer.wrap(byteData).getLong();
-        } catch(NoSuchAlgorithmException e) {
-            System.out.println("Error, hashing algorithm not found");
-            return 0;
-        }
+        byte[] byteData = utilities.hashString(input).getBytes();
+        return ByteBuffer.wrap(byteData).getLong();
     }
 
     public static <T> List<T> union(List<T> list1, List<T> list2) {
