@@ -20,6 +20,10 @@ public class URLFrontier {
         }
     });
 
+    public int getBackQueueCount() {
+        return backQueues.size();
+    }
+
     //private Prioritizer prioritizer = new Prioritizer(FRONT_QUEUES);
 
     private Random rand = new Random();

@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -24,7 +25,7 @@ public class indexer {
 
     }
 
-    public void savePage(URI url, String content) {
+    public void savePage(URL url, String content) {
         String filename = utilities.hashString(url.toString());
 
         List<String> lines = null;

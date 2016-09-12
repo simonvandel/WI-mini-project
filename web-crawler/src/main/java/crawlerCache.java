@@ -1,3 +1,4 @@
+import com.google.common.base.Optional;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.LoadingCache;
@@ -15,9 +16,9 @@ public class crawlerCache {
 
     public BaseRobotRules getRobotTxt(URL url) {
         BaseRobotRules result = robotcache.getIfPresent(url.getHost());
-        if (result != null) {
+        if (result == null) {
             try {
-                String robottxt = utilities.downloadText(url.getHost() + "/robots.txt");
+                String robottxt = utilities.downloadText(new URL(url.getProtocol(), url.getHost(), "/robots.txt"));
                 result = RobotsTxtParser.parse(robottxt.getBytes(), "NiceBot");
                 robotcache.put(url.getHost(), result);
             } catch (Exception e) {

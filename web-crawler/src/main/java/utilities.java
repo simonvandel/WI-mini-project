@@ -27,9 +27,8 @@ public class utilities {
             return "";
         }
     }
-    public static String downloadText(String url) throws Exception {
-        URL website = new URL(url);
-        URLConnection connection = website.openConnection();
+    public static String downloadText(URL url) throws Exception {
+        URLConnection connection = url.openConnection();
         BufferedReader in = new BufferedReader(
                 new InputStreamReader(
                         connection.getInputStream()));
