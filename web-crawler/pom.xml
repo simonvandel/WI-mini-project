@@ -20,4 +20,14 @@
             </plugin>
         </plugins>
     </build>
+
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/com.github.crawler-commons/crawler-commons -->
+        <dependency>
+            <groupId>com.github.crawler-commons</groupId>
+            <artifactId>crawler-commons</artifactId>
+            <version>0.6</version>
+        </dependency>
+
+    </dependencies>
 </project>
