@@ -11,7 +11,7 @@ public class urlSanitizer {
         return result;
     }
 
-    public boolean isURLInteresting(URL input) {
+    public static boolean isURLInteresting(URL input) {
         // 1) Check protocol
         String scheme = input.getProtocol();
         boolean isInteresting = false;

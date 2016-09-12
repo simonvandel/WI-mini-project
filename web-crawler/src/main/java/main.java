@@ -1,3 +1,8 @@
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -7,26 +12,11 @@ public class main {
 
     public static void main (String[] args) {
         crawl();
-    }
-
-
-    public static void testqueue () throws MalformedURLException {
-        URLFrontier crawlerQueue = new URLFrontier();
-
-        crawlerQueue.add(new URL("http://google.com/"));
-        crawlerQueue.add(new URL("http://google.com/maps"));
-        crawlerQueue.add(new URL("http://facebook.com/"));
-        crawlerQueue.add(new URL("http://twitter.com/"));
-        crawlerQueue.add(new URL("http://twitter.com/stuff/"));
-
-        System.out.println(crawlerQueue.next());
-        System.out.println(crawlerQueue.next());
-        System.out.println(crawlerQueue.next());
-        System.out.println(crawlerQueue.next());
-        System.out.println(crawlerQueue.next());
+        System.out.println("hello");
     }
 
     private static void crawl() {
+        crawlerCache crawlerCache = new crawlerCache();
         // Initialize queue with seed URLs
 
         // Fetch next URI and delete from queue
@@ -40,20 +30,35 @@ public class main {
         // Download this page
         String thisPage = null;
         try {
-            thisPage = utilities.downloadText("http://www.google.dk");
+            thisPage = utilities.downloadText("http://www.fiskehuset.com/");
             System.out.println(thisPage);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-            // Extract text
-            // Extract outgoing links
-                // For each extracted link
-                    // Normalize URI
-                    // Check if link is good (e.g. no mailto: or ftp: or .jpg)
-                    // Check if obey robots.txt
-                    // Check if already in frontier
-                    // Add to frontier
+        // Extract outgoing links
+        Document doc = Jsoup.parse(thisPage);
+        Elements links = doc.getElementsByTag("a");
+        for (Element link : links) {
+            String linkHref = link.absUrl("href");
+            try {
+                URL urllink = new URL(linkHref);
+                System.out.print(urlSanitizer.isURLInteresting(urllink) + " ");
+                System.out.println(linkHref);
+                crawlerCache.getRobotTxt(urllink);
+            } catch (MalformedURLException e) {
+
+            }
+
+
+            // Check if obey robots.txt
+            // Check if already in frontier
+            // Add to frontier
+        }
+
+        // Extract text
+
+
             // Run near-duplicate check
                 // If not duplicate, pass to indexer (LATER)
         indexer index = new indexer();
