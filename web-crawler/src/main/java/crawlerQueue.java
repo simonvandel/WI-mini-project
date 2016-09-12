@@ -6,4 +6,8 @@ public class crawlerQueue {
     public static URI fetchNextURI() throws URISyntaxException {
         return new URI("http://www.google.dk");
     }
+
+    public static void removeURI(URI uriToDelete) {
+
+    }
 }

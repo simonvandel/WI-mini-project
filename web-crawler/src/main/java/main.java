@@ -12,14 +12,29 @@ public class main {
         // Initialize queue with seed URLs
 
         // Fetch next URI from queue
+        URI nextURI = null;
         try {
-            URI nextURI = crawlerQueue.fetchNextURI();
+            nextURI = crawlerQueue.fetchNextURI();
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
 
         // Download this page
+            // Extract text
+            // Run near-duplicate check
+                // If not duplicate, pass to indexer (LATER)
+            // Extract outgoing links
 
-        // Parse page
+        // For each extracted link
+            // Normalize URI
+            // Check if link is good (e.g. no mailto: or ftp: or .jpg)
+            // Check if obey robots.txt
+            // Check if already in frontier
+            // Add to frontier
+
+        // Delete current URI from queue
+        if (nextURI != null) {
+            crawlerQueue.removeURI(nextURI);
+        }
     }
 }
