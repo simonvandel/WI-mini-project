@@ -20,17 +20,19 @@ public class main {
         }
 
         // Download this page
-            // Extract text
+            // Extract text/
+            // Extract outgoing links
+                // For each extracted link
+                    // Normalize URI
+                    // Check if link is good (e.g. no mailto: or ftp: or .jpg)
+                    // Check if obey robots.txt
+                    // Check if already in frontier
+                    // Add to frontier
             // Run near-duplicate check
                 // If not duplicate, pass to indexer (LATER)
-            // Extract outgoing links
 
-        // For each extracted link
-            // Normalize URI
-            // Check if link is good (e.g. no mailto: or ftp: or .jpg)
-            // Check if obey robots.txt
-            // Check if already in frontier
-            // Add to frontier
+
+
 
         // Delete current URI from queue
         if (nextURI != null) {
