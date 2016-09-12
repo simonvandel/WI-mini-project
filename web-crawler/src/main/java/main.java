@@ -20,6 +20,14 @@ public class main {
         }
 
         // Download this page
+        String thisPage = null;
+        try {
+            thisPage = utilities.downloadText("http://www.google.dk");
+            System.out.println(thisPage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
             // Extract text
             // Extract outgoing links
                 // For each extracted link

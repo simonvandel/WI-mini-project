@@ -1,16 +1,19 @@
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 
 public class urlSanitizer {
 
-    public URI sanitize(String input) throws URISyntaxException {
-        URI result = new URI(input);
-        return result.normalize();
+    public URL sanitize(String input) throws MalformedURLException {
+        URL result = new URL(input);
+        // TODO sanitize url
+        return result;
     }
 
-    public boolean isURIInteresting (URI input) {
+    public boolean isURLInteresting(URL input) {
         // 1) Check protocol
-        String scheme = input.getScheme();
+        String scheme = input.getProtocol();
         boolean isInteresting = false;
         switch (scheme) {
             case "http":
