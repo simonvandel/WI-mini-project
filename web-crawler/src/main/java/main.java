@@ -1,11 +1,29 @@
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 
 public class main {
 
     public static void main (String[] args) {
         crawl();
-        System.out.println("hello");
+    }
+
+
+    public static void testqueue () throws MalformedURLException {
+        URLFrontier crawlerQueue = new URLFrontier();
+
+        crawlerQueue.add(new URL("http://google.com/"));
+        crawlerQueue.add(new URL("http://google.com/maps"));
+        crawlerQueue.add(new URL("http://facebook.com/"));
+        crawlerQueue.add(new URL("http://twitter.com/"));
+        crawlerQueue.add(new URL("http://twitter.com/stuff/"));
+
+        System.out.println(crawlerQueue.next());
+        System.out.println(crawlerQueue.next());
+        System.out.println(crawlerQueue.next());
+        System.out.println(crawlerQueue.next());
+        System.out.println(crawlerQueue.next());
     }
 
     private static void crawl() {
