@@ -8,7 +8,7 @@ import crawlercommons.robots.SimpleRobotRulesParser;
 public class RobotsTxtParser {
 
     public static BaseRobotRules parse(byte[] robotsTxtContent, String robotName) {
-        BaseRobotsParser parser = new ;
+        BaseRobotsParser parser = new SimpleRobotRulesParser();
         return parser.parseContent("foo", robotsTxtContent, "text/plain", robotName);
     }
 }
