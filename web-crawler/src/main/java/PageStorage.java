@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by Michael on 12-09-2016.
  */
-public class indexer {
+public class PageStorage {
 
     int count = 0;
 
@@ -21,7 +21,7 @@ public class indexer {
         return count;
     }
 
-    public indexer() {
+    public PageStorage() {
 
     }
 
@@ -30,8 +30,8 @@ public class indexer {
 
         List<String> lines = null;
         lines = Arrays.asList(url.toString(), content);
-        new File("indices/").mkdir();
-        Path file = Paths.get("indices/" + filename + ".txt");
+        new File("storedPages/").mkdir();
+        Path file = Paths.get("storedPages/" + filename);
         try {
             Files.write(file, lines, Charset.forName("UTF-8"));
         } catch (IOException e) {
@@ -42,7 +42,7 @@ public class indexer {
     }
 
     public void clearIndices() {
-        new File("indices").delete();
+        new File("storedPages").delete();
         count = 0;
     }
 }

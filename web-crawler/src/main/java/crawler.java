@@ -5,23 +5,21 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class main {
+public class crawler {
 
     static List<URL> visited = new ArrayList<>();
     static crawlerCache crawlerCache = new crawlerCache();
     static URLFrontier urlFrontier = new URLFrontier();
-    static indexer index = new indexer();
+    static PageStorage index = new PageStorage();
 
     public static void main(String[] args) {
         // Initialize queue with seed URLs
         try {
-            URL url = new URL("http://www.dr.dk");
+            URL url = new URL("http://www.bbc.co.uk");
             urlFrontier.add(url);
             visited.add(url);
 
@@ -75,7 +73,7 @@ public class main {
 
 
         // Run near-duplicate check
-        // If not duplicate, pass to indexer (LATER)
+        // If not duplicate, pass to PageStorage (LATER)
 
 //        try {
 //            index.savePage(new URI("http://www.google.dk"), "testtestestestestestsetse");
