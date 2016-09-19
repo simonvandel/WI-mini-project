@@ -63,6 +63,7 @@ public class URLFrontier {
         // System.out.println("fetching url: " + url + " from front queue");
 
         // add to back queue
+        // TODO: a.b.com should be b.com
         String hostname = url.getHost();
 
         // backQueues.putIfAbsent(hostname, new LinkedList<>()).add(url);

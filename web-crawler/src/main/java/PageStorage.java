@@ -25,6 +25,7 @@ public class PageStorage {
 
     }
 
+    // TODO: file count and index count do not match, check for duplicates
     public void savePage(URL url, String content) {
         String filename = utilities.hashString(url.toString());
 

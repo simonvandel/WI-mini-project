@@ -3,6 +3,7 @@ import org.jsoup.Jsoup;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.file.FileVisitOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -16,11 +17,13 @@ import java.util.stream.Collectors;
  */
 public class Indexer {
     public static void main(String[] args) {
-        Path startPath = Paths.get("storedPages/");
+        Path startPath = Paths.get("storedPages_wip/");
         try {
             // key is token, value is list of urlHash + count
             HashMap<String, HashMap<String, Integer>> tokenCount = new HashMap<>();
             Files.walk(startPath)
+                    // skip the directory
+                    .skip(1)
                     .map(Indexer::readHtml)
                     .map(storedPage -> {
                         List<String> tokens = Tokenizer.tokenize(storedPage.textFromHtml);
@@ -30,16 +33,17 @@ public class Indexer {
                         String urlHash = tokenizedPage.getUrlHash();
                         for (String token
                                 :tokenizedPage.getTokens()) {
-                            HashMap<String, Integer> value = tokenCount.get(token);
-                            if(value == null) {
-                                HashMap<String, Integer> tempValue = new HashMap<>();
-                                tempValue.put(urlHash, 1);
-                                tokenCount.put(token, tempValue);
+                            HashMap<String, Integer> innerHashTable = tokenCount.get(token);
+                            if(innerHashTable == null) {
+                                innerHashTable = new HashMap<>();
+                                tokenCount.put(token, innerHashTable);
                             }
-                            else {
-                                // find the pageInfo matching urlHash, and add 1 to the frequency
-                                value.compute(urlHash, (_, oldCount) -> oldCount + 1);
-                            }
+
+                            // to initialize
+                            innerHashTable.putIfAbsent(urlHash, 0);
+
+                            // find the pageInfo matching urlHash, and add 1 to the frequency
+                            innerHashTable.compute(urlHash, (x, oldCount) -> oldCount + 1);
                         }
                     });
 
