@@ -89,6 +89,7 @@ public class Queryer {
             scores.entrySet()
                     .stream()
                     .sorted((e1, e2) -> Double.compare(e2.getValue(), e1.getValue()))
+                    .limit(10)
                     .map(e -> {
                         try {
                             String url = Files.readAllLines(Paths.get("storedPages/" + e.getKey())).get(0);
