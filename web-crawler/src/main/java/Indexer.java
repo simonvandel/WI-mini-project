@@ -17,35 +17,40 @@ import java.util.stream.Collectors;
  */
 public class Indexer {
     public static void main(String[] args) {
-        Path startPath = Paths.get("storedPages_wip/");
+        Path startPath = Paths.get("storedPages/");
         try {
             // key is token, value is list of urlHash + count
             HashMap<String, HashMap<String, Integer>> tokenCount = new HashMap<>();
+            final int[] N = {0};
             Files.walk(startPath)
-                    // skip the directory
-                    .skip(1)
-                    .map(Indexer::readHtml)
-                    .map(storedPage -> {
-                        List<String> tokens = Tokenizer.tokenize(storedPage.textFromHtml);
-                        return new TokenizedPage(storedPage.urlHash, tokens);
-                    })
-                    .forEach(tokenizedPage -> {
-                        String urlHash = tokenizedPage.getUrlHash();
-                        for (String token
-                                :tokenizedPage.getTokens()) {
-                            HashMap<String, Integer> innerHashTable = tokenCount.get(token);
-                            if(innerHashTable == null) {
-                                innerHashTable = new HashMap<>();
-                                tokenCount.put(token, innerHashTable);
-                            }
+            // skip the directory
+            .skip(1)
+            .map(Indexer::readHtml)
+            .map(storedPage -> {
+                List<String> tokens = Tokenizer.tokenize(storedPage.textFromHtml);
+                return new TokenizedPage(storedPage.urlHash, tokens);
+            })
+            .forEach(tokenizedPage -> {
+                String urlHash = tokenizedPage.getUrlHash();
+                N[0]++;
+                for (String token
+                        :tokenizedPage.getTokens()) {
+                    HashMap<String, Integer> innerHashTable = tokenCount.get(token);
+                    if(innerHashTable == null) {
+                        innerHashTable = new HashMap<>();
+                        tokenCount.put(token, innerHashTable);
+                    }
 
-                            // to initialize
-                            innerHashTable.putIfAbsent(urlHash, 0);
+                    // to initialize
+                    innerHashTable.putIfAbsent(urlHash, 0);
 
-                            // find the pageInfo matching urlHash, and add 1 to the frequency
-                            innerHashTable.compute(urlHash, (x, oldCount) -> oldCount + 1);
-                        }
-                    });
+                    // find the pageInfo matching urlHash, and add 1 to the frequency
+                    innerHashTable.compute(urlHash, (x, oldCount) -> oldCount + 1);
+                }
+            });
+
+
+
 
             // create directory for indices
             new File("indices/").mkdir();
@@ -54,8 +59,13 @@ public class Indexer {
             tokenCount.forEach((token, urlCountList) -> {
                 Path file = Paths.get("indices/" + token);
                 List<String> content = new ArrayList<String>();
+                double df = urlCountList.size();
+                double idf = Math.log10(N[0] / df);
                 urlCountList.forEach((urlHash, count) -> {
-                    content.add(urlHash + " " + count);
+                    // calc tf-idf
+                    double tfLog = (count == 0) ? 0 : 1 + Math.log10(count);
+                    double tfIdf = tfLog*idf;
+                    content.add(urlHash + " " + count + " " + tfIdf);
                 });
                 try {
                     Files.write(file, content, Charset.forName("UTF-8"));
