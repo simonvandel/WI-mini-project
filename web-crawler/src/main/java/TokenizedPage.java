@@ -7,6 +7,7 @@ public class TokenizedPage {
     private final String urlHash;
     private final List<String> tokens;
 
+
     public TokenizedPage(String urlHash, List<String> tokens) {
         this.urlHash = urlHash;
         this.tokens = tokens;
