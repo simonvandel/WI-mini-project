@@ -64,7 +64,8 @@ class Model:
         # calc scores
         score_pos = calc_score(1)
         score_neg = calc_score(0)
-        return (score_pos, score_neg)
+        return 1 if score_pos >= score_neg else 0
+        #return (score_pos, score_neg)
 
 def tokenize(string):
     return string.split()

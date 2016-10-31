@@ -4,6 +4,7 @@ from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 from sentiment_anal import Model
 from part2 import trainModel
+from functools import reduce
 
 color_map = {
         0:'y',
@@ -63,11 +64,16 @@ def get_score(name, G):
     friends = G.edges([name])
     score = G.node[name]['score']
     if score is None:
-        scores = map(lambda friend: get_score(friend, G), friends)
-        calc_score =  reduce(lambda x, y: x + y, scores) / len(scores)
+        alpha = lambda friend: 10.0 if G.node[name]["cluster"] != G.node[friend]["cluster"] else 1.0
+        beta = lambda friend: 10.0 if friend == "kyle" else 1.0
+        scores = map(lambda friend: alpha(friend[1]) * beta(friend[1]) * G.node[friend[1]]['score'], filter(lambda friend: G.node[friend[1]]["score"] is not None, friends))
+        print(scores)
+        calc_score = reduce(lambda x, y: x + y, scores) / len(list(scores))
+    
         G.node[name]['score'] = calc_score
         return calc_score
     else:
+        print(score)
         return score
 
 with open("friendships.reviews.txt") as inFile:
@@ -85,21 +91,24 @@ with open("friendships.reviews.txt") as inFile:
     for row in data_rows:
         name = row[0].split()[1]
         friends = row[1].split("\t")[1:]
-        review = row[3].split()[1:]
+        review = row[3].split()[1:][0]
         score = None
         if review != "*":
             score = model.predict(review)
         for friend in friends:
             G.add_edge(name, friend)
-        G.node[node]['score'] = score
+        G.node[name]['score'] = score
         data.append((name, friends, review))
 
+    print("aleins")
+    communities = find_communities(G)
+
+    print("hookes")
     for (name, friends, review) in data:
         if review == "*":
             get_score(name, G)
-
+        print(name, G.node[name]["score"])
     
-    communities = find_communities(G)
     print(communities)
     nx.draw_spring(G, node_color=[color_map[G.node[node]['cluster']] for node in G])
     
