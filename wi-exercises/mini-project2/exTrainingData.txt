@@ -1,0 +1,20 @@
+i like good think 1
+worst bad 0
+i like good 1
+okay perfect 1
+not okay 0
+bad worst 0
+not worst 1
+not good perfect 0
+not like 0
+not bad 1
+i think had okay 1
+i think had worst 0
+think bad not perfect 0
+think okay 1
+i like 1
+think good not bad 1
+like 1
+worst 0
+think not perfect 0
+i think good 1
